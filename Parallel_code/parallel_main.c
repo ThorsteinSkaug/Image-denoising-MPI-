@@ -29,7 +29,7 @@ int main(int argc, char *argv[]){
   MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
   MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
 
-  //Using the first process to import jpg file for denoising
+  // Using the first process to import jpg file for denoising
   if(my_rank == 0) {
     import_JPEG_file(input_jpeg_filename, &image_chars, &m, &n, &c);}
 
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]){
 
 
   // Collects the send buffer contents for all processes and
-  // sorts them in rank order into the receive buffer
+  // Sorts them in rank order into the receive buffer
   MPI_Gather(&load_size, 1, MPI_INT, &load_array[my_rank], 1, MPI_INT, 0, MPI_COMM_WORLD);
 
 
