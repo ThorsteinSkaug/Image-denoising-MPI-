@@ -1,7 +1,14 @@
 #include "serial_header.h"
 
-// Function for allocating memory for an image
 void allocate_image(image *u, int m, int n){
+
+  // Function for allocating memory for an image
+  // The image struct is here used, where the image data 'u' has several components
+  // Inputs:
+  // image *u: pointer of image struct for storing image data
+  // int m: Image height
+  // int n: Image width
+
   u -> n = n;
   u -> m = m;
   u -> image_data = (float**)malloc(m*sizeof(float*));
@@ -11,15 +18,24 @@ void allocate_image(image *u, int m, int n){
     }
 }
 
-// Deallocating an image
 void deallocate_image(image *u){
+
+  // Deallocating an image
+  // Inputs:
+  // image *u: pointer of image struct for storing image data
+
   free(u->image_data[0]);
   free(u->image_data);
 }
 
 
-// Looping through all pixels of a jpeg file, and converting into usable image data
 void convert_jpeg_to_image(const unsigned char* image_chars, image *u){
+
+  // Looping through all pixels of a jpeg file, and converting into usable image data
+  // Inputs:
+  // const unsigned char* image chars: Pointer for image chars
+  // image *u: pointer of image struct for storing image data
+
   int m = u->m;
   int n = u->n;
   for (int i=0; i<m; i++)
@@ -27,8 +43,13 @@ void convert_jpeg_to_image(const unsigned char* image_chars, image *u){
           u->image_data[i][j] = (float) image_chars[i*n+j];
 }
 
-// Same as the last function, just the other way around
 void convert_image_to_jpeg(const image *u, unsigned char* image_chars){
+
+  // Same as the last function, just the other way around
+  // Inputs:
+  // unsigned char* image chars: Pointer for image chars
+  // image *u: pointer of image struct for storing image data
+
   int m = u->m;
   int n = u->n;
   for (int i=0; i<m; i++)
@@ -36,8 +57,15 @@ void convert_image_to_jpeg(const image *u, unsigned char* image_chars){
           image_chars[i*n+j] = (unsigned char) u->image_data[i][j];
 }
 
-// The actual denosing algorithm
 void iso_diffusion_denoising(image *u, image *u_bar, float kappa, int iters){
+
+  // The actual denoising algorithm
+  // Inputs:
+  // image *u: pointer of image struct for storing image data
+  // image *u_bar: pointer of image struct for storing denoised image data
+  // float kappa: constant scaling factor. Usually small. 0.2 as default.
+  // int iters: Number of iterations of denoising
+
   int m = u->m;
   int n = u->n;
 
